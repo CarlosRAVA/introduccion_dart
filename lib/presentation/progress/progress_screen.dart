@@ -33,6 +33,7 @@ class _ProgressView extends StatelessWidget {
 
           StreamBuilder(
             stream: Stream.periodic(Duration(milliseconds: 300), (value){
+              print(value);
               return (value * 2) / 100;
             }).takeWhile( (value) => value < 100),
             builder: (context, snapshot){
@@ -51,6 +52,7 @@ class _ProgressView extends StatelessWidget {
                     SizedBox(width: 20,),
 
                     Expanded(child: LinearProgressIndicator( value:progressValue,))
+                    //! git commit -m "feat: pantalla de tarjetas y progress indicator"
                   ],
                 ),
               );
