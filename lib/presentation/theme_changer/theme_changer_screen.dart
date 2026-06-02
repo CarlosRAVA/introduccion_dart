@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hello_app/config/theme/app_theme.dart';
+import 'package:hello_app/presentation/providers/theme_provider.dart';
 
-class ThemeChangerScreen extends StatelessWidget {
+class ThemeChangerScreen extends ConsumerWidget {
   static final String name = "themeChanger_screen";
   const ThemeChangerScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+
+    final selectedColor = ref.watch(themeNotifierProvider).selectColor;
+    final isDarkMode = ref.watch(themeNotifierProvider).isDarkMode;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Theme Changer'),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.dark_mode_outlined)
+            onPressed: () {
+              ref.read( themeNotifierProvider.notifier ).toggleDarkMode();
+            },
+            icon: Icon(
+              isDarkMode ? Icons.dark_mode_outlined : Icons.light_mode_outlined)
           ),
         ],
       ),
@@ -24,12 +33,13 @@ class ThemeChangerScreen extends StatelessWidget {
 
           return RadioListTile(
             title: Text('Color', style: TextStyle(color: color)),
-            subtitle: Text('Valor'),
+            subtitle: Text(' ${color.toARGB32()}'),
             activeColor: color,
             value: index,
+            groupValue: selectedColor,
             onChanged: (value) {
-
-              // Cambiar el tema aquí
+              ref.read( themeNotifierProvider.notifier)
+              .changeColorIndex(index);
             },
           );
         },

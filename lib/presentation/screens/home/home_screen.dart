@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hello_app/config/menu/menu_items.dart';
+import 'package:hello_app/widgets/side_menu.dart';
  //impm importa directamente el material de flutter
 
 class HomeScreen extends StatelessWidget {
@@ -10,11 +11,16 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final scaffoldKey = GlobalKey<ScaffoldState>();
+
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text('Flutter + Material 3'),
       ),
-      body: _HomeView()
+      body: _HomeView(),
+      drawer: SideMenu(scaffoldKey: scaffoldKey),
     );
   }
 }

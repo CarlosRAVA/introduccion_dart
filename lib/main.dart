@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:hello_app/config/router/app_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hello_app/config/theme/app_theme.dart';
-
+import 'package:hello_app/config/router/app_router.dart';
+import 'package:hello_app/presentation/providers/theme_provider.dart';
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ));
+
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    
+    final appTheme = ref.watch( themeNotifierProvider);
     return MaterialApp.router(
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
-      theme: AppTheme( selectColor: 0).getTheme(), //en esta parte se selecciona el color global
+      theme: appTheme.getTheme(),
     );
   }
 }
